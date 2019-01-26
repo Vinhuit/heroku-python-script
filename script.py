@@ -1,7 +1,5 @@
 import time, sys ,os ,threading
-from threading import Lock, Thread
-import grequests,requests, schedule, subprocess, pyautogui
-
+import grequests,requests, schedule
 def KillMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
