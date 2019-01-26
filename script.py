@@ -94,8 +94,9 @@ def main():
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
 		f = open("accountsrerun.txt", "rt")
+		listoffline=f.readlines()
+		send_mess("List offline:"+' '.join(listoffline))
 		SenRequestKillMiner(f,KillMiner)
-		send_mess("List offline: "+str(f.readlines()))
 		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 		send_mess("Wallet Balance: "+str(WalletStatus()))
@@ -105,8 +106,9 @@ def main():
 		if n==3:
 			if(listDev[len(listDev)-1] >= listDev[len(listDev)-3]):
 				f = open("accountsrerun.txt", "rt")
+				listoffline=f.readlines()
+				send_mess("List offline:"+' '.join(listoffline))
 				SenRequestKillMiner(f,StartMiner)
-				send_mess("List offline: "+str(f.readlines()))
 				send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 				send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 				send_mess("Wallet Balance: "+str(WalletStatus()))
