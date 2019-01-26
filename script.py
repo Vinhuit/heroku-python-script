@@ -88,6 +88,7 @@ def send_mess(text):
 
 def main():
 		global n
+		listDev=[]
 		SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
@@ -99,8 +100,9 @@ def main():
 		send_mess("Wallet Balance: "+str(WalletStatus()))
 		n=n+1;
 		listDev.append(len(open('accountsrerun.txt',"rt").readlines()))
+		print(len(listDev))
 		if n==3:
-			if(listDev[len(a)] >= listDev[len(a)-2]):
+			if(listDev[len(listDev)] >= listDev[len(listDev)-1]):
 				f = open("accountsrerun.txt", "rt")
 				SenRequestKillMiner(f,StartMiner)
 				send_mess("List offline: "+str(f.readlines()))
@@ -111,7 +113,6 @@ def main():
 				n=0
 
 schedule.every(10).minutes.do(main)
-print 'c'
 while 1:
 	schedule.run_pending()
 	time.sleep(1)
