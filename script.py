@@ -1,6 +1,7 @@
 import time, sys ,os ,threading
 import grequests,requests, schedule
 n=0
+listDev=[]
 def KillMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
@@ -88,7 +89,7 @@ def send_mess(text):
 
 def main():
 		global n
-		listDev=[]
+		global listDev
 		SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
@@ -102,7 +103,7 @@ def main():
 		listDev.append(len(open('accountsrerun.txt',"rt").readlines()))
 		print(len(listDev))
 		if n==3:
-			if(listDev[len(listDev)] >= listDev[len(listDev)-1]):
+			if(listDev[len(listDev)-1] >= listDev[len(listDev)-3]):
 				f = open("accountsrerun.txt", "rt")
 				SenRequestKillMiner(f,StartMiner)
 				send_mess("List offline: "+str(f.readlines()))
