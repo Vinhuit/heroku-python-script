@@ -6,10 +6,10 @@ def KillMiner(mtpool):
 	reqRm = 'http://'+mtpool+'.herokuapp.com/custom?link=pkill+bash%3Bpkill+miner%3Bpkill+run2.sh%3Bpkill+setup_nim.sh&key=&lach='
 	return reqRm
 	
-def StartMiner(pool):
+def StartMiner(mtpool):
 	mtpool=mtpool.rstrip()
-	print("Get Url Devices "+pool)
-	reqStart = 'http://'+pool+'.herokuapp.com/custom?link=mkdir+miner%3Bcd+miner%3Bwget+https%3A%2F%2Fraw.githubusercontent.com%2FVinhuit%2Fazurenimpool%2Fmaster%2Fazure_script%2Frun2.sh%3Bchmod+u%2Bx+run2.sh%3B+.%2Frun2.sh+'+pool+'&key=&lach='
+	print("Get Url Devices "+mtpool)
+	reqStart = 'http://'+mtpool+'.herokuapp.com/custom?link=mkdir+miner%3Bcd+miner%3Bwget+https%3A%2F%2Fraw.githubusercontent.com%2FVinhuit%2Fazurenimpool%2Fmaster%2Fazure_script%2Frun2.sh%3Bchmod+u%2Bx+run2.sh%3B+.%2Frun2.sh+'+mtpool+'&key=&lach='
 	# try:
 		# f =  requests.get(reqStart,timeout=5,verify=False)
 		# print("Start Done "+pool)
@@ -19,9 +19,9 @@ def StartMiner(pool):
 
 def SenRequestKillMiner(file,function,timeout=20):
 	urls=[]
-	for mtpool in file:
-		mtpool=mtpool.rstrip()
-		urls.append(function(mtpool))
+	for pool in file:
+		pool=pool.rstrip()
+		urls.append(function(pool))
 	rs = (grequests.get(u,timeout=timeout) for u in urls)
 	print(grequests.map(rs))
 
@@ -46,7 +46,12 @@ def json_address_for_sushi():
 
 def WalletStatus():
 	url_wallet = json_address_for_sushi()
-	nimiq_core = requests.get(url_wallet).json()
+	nimiq_core = None
+	while nimiq_core is None:
+		try:
+			nimiq_core = requests.get(url_wallet).json()
+		except:
+			 pass
 	wallet_state = nimiq_core['wallet_balance']
 	balance_formatted = format(wallet_state/100000,'.2f')
 	return balance_formatted
@@ -79,19 +84,32 @@ def send_mess(text):
 	params = {'chat_id':"531864213", 'text': text}
 	response = requests.post(url + 'sendMessage', data=params)
 	return response
-
+n=0
 def main():	
 		SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
 		f = open("accountsrerun.txt", "rt")
-		SenRequestKillMiner(f,KillMiner,40)
+		SenRequestKillMiner(f,KillMiner)
 		send_mess("List offline: "+str(f.readlines()))
 		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 		send_mess("Wallet Balance: "+str(WalletStatus()))
+		n=n+1;
+		listDev.append(len(open('accountsrerun.txt',"rt").readlines()))
+		if n==3:
+			if(listDev[len(a)] >= listDev[len(a)-2]):
+				f = open("accountsrerun.txt", "rt")
+				SenRequestKillMiner(f,StartMiner)
+				send_mess("List offline: "+str(f.readlines()))
+				send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
+				send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
+				send_mess("Wallet Balance: "+str(WalletStatus()))
+				del listDev[:]
+				n=0
 
 schedule.every(10).minutes.do(main)
+print 'c'
 while 1:
-    schedule.run_pending()
-    time.sleep(1)
+	schedule.run_pending()
+	time.sleep(1)
