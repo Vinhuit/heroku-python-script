@@ -16,13 +16,13 @@ def StartMiner(pool):
 	# except:
 		# pass
 	return reqStart
+
 def SenRequestKillMiner(file,function,timeout=20):
 	urls=[]
 	for mtpool in file:
 		mtpool=mtpool.rstrip()
 		urls.append(function(mtpool))
 	rs = (grequests.get(u,timeout=timeout) for u in urls)
-	send_mess("List offline: "+urls)
 	print(grequests.map(rs))
 
 def Compare(f1,f2,f3):
@@ -55,7 +55,12 @@ def sort_by_name(d):
 def SimpleMonitor():
 	status = 'online'
 	json_address = json_address_for_sushi()
-	data = requests.get(json_address).json()
+	data = None
+	while data is None:
+		try:
+			data = requests.get(json_address).json()
+		except:
+			 pass
 	devices = data['devices']
 	devices=sorted(devices,key=sort_by_name)
 	open('offline.txt', 'w').close()
@@ -76,21 +81,16 @@ def send_mess(text):
 	return response
 
 def main():	
-	try:
-		try:
-			SimpleMonitor()
-		except:
-			SimpleMonitor()
+		SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
-		os.system("notepad accountsrerun.txt")
 		f = open("accountsrerun.txt", "rt")
 		SenRequestKillMiner(f,KillMiner)
+		send_mess("List offline: "+str(file.readlines()))
+		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
+		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 		send_mess("Wallet Balance: "+str(WalletStatus()))
-		print("Wallet Balance: "+str(WalletStatus()))
-		os.system("notepad accountsrerun.txt")	
-	except:
-		pass
+
 schedule.every(10).minutes.do(main)
 while 1:
     schedule.run_pending()
