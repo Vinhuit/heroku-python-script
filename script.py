@@ -1,5 +1,6 @@
 import time, sys ,os ,threading
 import grequests,requests, schedule
+n=0
 def KillMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
@@ -84,8 +85,9 @@ def send_mess(text):
 	params = {'chat_id':"531864213", 'text': text}
 	response = requests.post(url + 'sendMessage', data=params)
 	return response
-n=0
-def main():	
+
+def main():
+		global n
 		SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
