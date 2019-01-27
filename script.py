@@ -88,34 +88,32 @@ def send_mess(text):
 	return response
 
 def main():
-		global n
-		global listDev
-		SimpleMonitor()
-		Compare('offline.txt','online.txt','temp.txt')
-		Compare('temp.txt','online.txt','accountsrerun.txt')
-		f = open("accountsrerun.txt", "rt")
-		listoffline=f.readlines()
-		send_mess("List offline:"+' '.join(listoffline))
-		SenRequestKillMiner(f,KillMiner,40)
-		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
-		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
-		send_mess("Wallet Balance: "+str(WalletStatus()))
-		n=n+1;
-		listDev.append(len(open('accountsrerun.txt',"rt").readlines()))
-		print(len(listDev))
-		if n==2:
-			if(listDev[1] >= listDev[0]):
-				f = open("accountsrerun.txt", "rt")
-				listoffline=f.readlines()
-				send_mess("ReRun"+' '.join(listDev))
-				send_mess("List offline:"+' '.join(listoffline))
-				SenRequestKillMiner(f,StartMiner,40)
-				send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
-				send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
-				send_mess("Wallet Balance: "+str(WalletStatus()))
-				del listDev[:]
-				n=0
-
+	global n
+	global listDev
+	n=n+1;
+	SimpleMonitor()
+	Compare('offline.txt','online.txt','temp.txt')
+	Compare('temp.txt','online.txt','accountsrerun.txt')
+	listDev.append(int(len(open('accountsrerun.txt',"rt").readlines())))
+	f = open("accountsrerun.txt", "rt")
+	listoffline=f.readlines()
+	if n==2:
+		if(listDev[1] < listDev[0]):		
+			send_mess("Start Kill")
+			SenRequestKillMiner(f,KillMiner)
+		else:
+			send_mess("Start Rerun")
+			SenRequestKillMiner(f,StartMiner)
+		del listDev[:]
+		n=0
+	else:
+		send_mess("Start Kill")
+		SenRequestKillMiner(f,KillMiner)
+		
+	send_mess("List offline:"+' '.join(listoffline))
+	send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
+	send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
+	send_mess("Wallet Balance: "+str(WalletStatus()))
 schedule.every(10).minutes.do(main)
 while 1:
 	schedule.run_pending()
