@@ -100,10 +100,10 @@ def main():
 	if n==2:
 		if(listDev[1] < listDev[0]):		
 			send_mess("Start Kill")
-			SenRequestKillMiner(f,KillMiner)
+			SenRequestKillMiner(f,KillMiner,40)
 		else:
 			send_mess("Start Rerun")
-			SenRequestKillMiner(f,StartMiner)
+			SenRequestKillMiner(f,StartMiner,40)
 		del listDev[:]
 		n=0
 	else:
