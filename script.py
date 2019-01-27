@@ -107,6 +107,7 @@ def main():
 			if(listDev[1] >= listDev[0]):
 				f = open("accountsrerun.txt", "rt")
 				listoffline=f.readlines()
+				send_mess("ReRun"+' '.join(listDev))
 				send_mess("List offline:"+' '.join(listoffline))
 				SenRequestKillMiner(f,StartMiner,40)
 				send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
