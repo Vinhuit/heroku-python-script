@@ -104,7 +104,7 @@ def main():
 		listDev.append(len(open('accountsrerun.txt',"rt").readlines()))
 		print(len(listDev))
 		if n==2:
-			if(listDev[len(listDev)-1] >= listDev[len(listDev)-2]):
+			if(listDev[1] >= listDev[0]):
 				f = open("accountsrerun.txt", "rt")
 				listoffline=f.readlines()
 				send_mess("List offline:"+' '.join(listoffline))
