@@ -1,5 +1,6 @@
 import time, sys ,os ,threading
 import grequests,requests, schedule
+
 n=0
 listDev=[]
 def KillMiner(mtpool):
@@ -12,20 +13,15 @@ def StartMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Devices "+mtpool)
 	reqStart = 'http://'+mtpool+'.herokuapp.com/custom?link=mkdir+miner%3Bcd+miner%3Bwget+https%3A%2F%2Fraw.githubusercontent.com%2FVinhuit%2Fazurenimpool%2Fmaster%2Fazure_script%2Frun2.sh%3Bchmod+u%2Bx+run2.sh%3B+.%2Frun2.sh+'+mtpool+'&key=&lach='
-	# try:
-		# f =  requests.get(reqStart,timeout=5,verify=False)
-		# print("Start Done "+pool)
-	# except:
-		# pass
 	return reqStart
-
-def SenRequestKillMiner(file,function,timeout=20):
+def SenRequestRerunMiner(file,callback,timeout=40):
 	urls=[]
 	for pool in file:
 		pool=pool.rstrip()
-		urls.append(function(pool))
+		urls.append(callback(pool))	
 	rs = (grequests.get(u,timeout=timeout) for u in urls)
 	print(grequests.map(rs))
+
 
 def Compare(f1,f2,f3):
 	with open(f1, 'r') as file1:
@@ -86,34 +82,45 @@ def send_mess(text):
 	params = {'chat_id':"531864213", 'text': text}
 	response = requests.post(url + 'sendMessage', data=params)
 	return response
-
+def file_lengthy(fname):
+        with open(fname) as f:
+                for i, l in enumerate(f):
+                        pass
+        return i + 1
+def GetLines(fname):
+	with open(fname) as f:
+		contents = f.readlines()
+	contents = [x.strip() for x in contents] 
+	return contents
 def main():
-	global n
-	global listDev
-	n=n+1;
-	SimpleMonitor()
-	Compare('offline.txt','online.txt','temp.txt')
-	Compare('temp.txt','online.txt','accountsrerun.txt')
-	listDev.append(int(len(open('accountsrerun.txt',"rt").readlines())))
-	f = open("accountsrerun.txt", "rt")
-	listoffline=f.readlines()
-	if n==2:
-		if(listDev[1] < listDev[0]):		
+		global n
+		global listDev
+		n=n+1;
+		SimpleMonitor()
+		Compare('offline.txt','online.txt','temp.txt')
+		Compare('temp.txt','online.txt','accountsrerun.txt')
+		f = open("accountsrerun.txt", "rt")
+		listDev.append(file_lengthy('accountsrerun.txt'))
+		if n==2:
+			if(listDev[1] < listDev[0]):	
+				send_mess("Start Kill")
+				SenRequestRerunMiner(f,KillMiner,40)
+				
+			else:
+				send_mess("Start Rerun")
+				SenRequestRerunMiner(f,StartMiner,40)
+			del listDev[:]
+			n=0
+		else:			
 			send_mess("Start Kill")
-			SenRequestKillMiner(f,KillMiner,40)
-		else:
-			send_mess("Start Rerun")
-			SenRequestKillMiner(f,StartMiner,40)
-		del listDev[:]
-		n=0
-	else:
-		send_mess("Start Kill")
-		SenRequestKillMiner(f,KillMiner)
-		
-	send_mess("List offline:"+' '.join(listoffline))
-	send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
-	send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
-	send_mess("Wallet Balance: "+str(WalletStatus()))
+			SenRequestRerunMiner(f,KillMiner)
+
+		send_mess("List offline:")
+		send_mess('\n'.join(GetLines('accountsrerun.txt')))
+		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
+		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
+		send_mess("Wallet Balance: "+str(WalletStatus()))
+
 schedule.every(10).minutes.do(main)
 while 1:
 	schedule.run_pending()
