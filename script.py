@@ -102,6 +102,7 @@ def GetLines(fname):
 	contents = [x.strip() for x in contents] 
 	return contents
 def ping():
+	SimpleMonitor()
 	filenames = ['offline.txt', 'online.txt']
 	with open('listacc.txt', 'w') as outfile:
 		for fname in filenames:
@@ -152,7 +153,7 @@ def main():
 		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 		send_mess("Wallet Balance: "+str(balance))
-SimpleMonitor()
+
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
 schedule.every(2).minutes.do(ping)
