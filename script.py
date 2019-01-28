@@ -1,4 +1,4 @@
-import time, sys ,os ,threading
+import time, sys ,os ,threading, re, datetime
 import grequests,requests, schedule
 
 n=0
@@ -8,7 +8,11 @@ def KillMiner(mtpool):
 	print("Get Url Kill "+mtpool)
 	reqRm = 'http://'+mtpool+'.herokuapp.com/custom?link=pkill+bash%3Bpkill+miner%3Bpkill+run2.sh%3Bpkill+setup_nim.sh&key=&lach='
 	return reqRm
-	
+def PingDevice(mtpool):
+	mtpool=mtpool.rstrip()
+	print("Ping Url "+mtpool)
+	reqRm = 'http://'+mtpool+'.herokuapp.com/'
+	return reqRm
 def StartMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Devices "+mtpool)
@@ -32,7 +36,8 @@ def Compare(f1,f2,f3):
 	list(set(same))
 	with open(f3, 'w') as file_out:
 		for line in sorted(same):
-			file_out.write(line)
+			if re.match("mtpoon",line):
+				file_out.write(line)
 
 def json_address_for_sushi():
 	wallet_address="NQ56 JVMC 03YP S4DY NU9C 4VER JER8 EJY1 JX9U"
@@ -61,10 +66,13 @@ def SimpleMonitor():
 	data = None
 	while data is None:
 		try:
+			print("try get json device")
 			data = requests.get(json_address).json()
 		except:
 			 pass
 	devices = data['devices']
+	wallet_state = data['wallet_balance']
+	balance_formatted = format(wallet_state/100000,'.2f')
 	devices=sorted(devices,key=sort_by_name)
 	open('offline.txt', 'w').close()
 	open('online.txt', 'w').close()
@@ -76,6 +84,7 @@ def SimpleMonitor():
 			open('offline.txt', 'a').write(miner_name+"\n")
 		else:
 			open('online.txt', 'a').write(miner_name+"\n")
+	return balance_formatted
 
 def send_mess(text):
 	url = "https://api.telegram.org/bot751128068:AAG4FraAKZ_es9ymZxy5dlhg3sJGtJpgKdw/"
@@ -92,14 +101,37 @@ def GetLines(fname):
 		contents = f.readlines()
 	contents = [x.strip() for x in contents] 
 	return contents
+def ping():
+	filenames = ['offline.txt', 'online.txt']
+	with open('listacc.txt', 'w') as outfile:
+		for fname in filenames:
+			with open(fname) as infile:
+				for line in infile:
+					outfile.write(line)
+	f = open("listacc.txt", "rt")
+	f2=open('listaccs.txt', 'w')
+	listacc=[]
+	for line in set(f):
+		if re.match("mtpoon",line):
+			f2.write(line)
+	time.sleep(2)
+	f2=open('listaccs.txt', 'rt')
+	SenRequestRerunMiner(f2,PingDevice,5)
+	
+def cancelschedule():
+	schedule.clear('startmain')
+	schedule.clear('startping')
+def startmain():
+	schedule.every(3).minutes.do(ping).tag('startping')
+	schedule.every(10).minutes.do(main).tag('startmain')
 def main():
 		global n
 		global listDev
 		n=n+1;
-		SimpleMonitor()
+		balance=SimpleMonitor()
 		Compare('offline.txt','online.txt','temp.txt')
 		Compare('temp.txt','online.txt','accountsrerun.txt')
-		f = open("accountsrerun.txt", "rt")
+		f=open('accountsrerun.txt', 'rt')
 		listDev.append(file_lengthy('accountsrerun.txt'))
 		if n==2:
 			if(listDev[1] < listDev[0]):	
@@ -119,9 +151,13 @@ def main():
 		send_mess('\n'.join(GetLines('accountsrerun.txt')))
 		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
-		send_mess("Wallet Balance: "+str(WalletStatus()))
+		send_mess("Wallet Balance: "+str(balance))
 
-schedule.every(10).minutes.do(main)
+#schedule.every(3).minutes.do(main)
+print(datetime.datetime.now())
+schedule.every().day.at("21:00").do(startmain).tag('main')
+schedule.every().day.at("16:00").do(cancelschedule).tag('cancelmain')
+
 while 1:
 	schedule.run_pending()
 	time.sleep(1)
