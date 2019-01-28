@@ -155,6 +155,7 @@ def main():
 SimpleMonitor()
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
+schedule.every(2).minutes.do(ping)
 schedule.every().day.at("21:00").do(startmain).tag('main')
 schedule.every().day.at("16:00").do(cancelschedule).tag('cancelmain')
 
