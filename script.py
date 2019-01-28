@@ -152,7 +152,7 @@ def main():
 		send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 		send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 		send_mess("Wallet Balance: "+str(balance))
-
+SimpleMonitor()
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
 schedule.every().day.at("21:00").do(startmain).tag('main')
