@@ -102,7 +102,6 @@ def GetLines(fname):
 	contents = [x.strip() for x in contents] 
 	return contents
 def ping():
-	SimpleMonitor()
 	filenames = ['offline.txt', 'online.txt']
 	with open('listacc.txt', 'w') as outfile:
 		for fname in filenames:
@@ -156,6 +155,7 @@ def main():
 
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
+SimpleMonitor()
 #schedule.every(2).minutes.do(ping)
 schedule.every().day.at("21:00").do(startmain).tag('main')
 schedule.every().day.at("16:00").do(cancelschedule).tag('cancelmain')
