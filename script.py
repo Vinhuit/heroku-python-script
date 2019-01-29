@@ -92,8 +92,8 @@ def send_mess(text):
 	response = requests.post(url + 'sendMessage', data=params)
 	return response
 def file_lengthy(fname):
+	i=0
         with open(fname) as f:
-		i = 0
                 for i, l in enumerate(f):
                         pass
         return i + 1
