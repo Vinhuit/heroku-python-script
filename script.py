@@ -3,6 +3,7 @@ import grequests,requests, schedule
 
 n=0
 listDev=[]
+devicename="zpoon"
 def KillMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
@@ -36,7 +37,7 @@ def Compare(f1,f2,f3):
 	list(set(same))
 	with open(f3, 'w') as file_out:
 		for line in sorted(same):
-			if re.match("mtpoon",line):
+			if re.match(devicename,line):
 				file_out.write(line)
 
 def json_address_for_sushi():
@@ -109,7 +110,7 @@ def ping():
 	f2=open('listaccs.txt', 'w')
 	listacc=[]
 	for line in set(f):
-		if re.match("mtpoon",line):
+		if re.match(devicename,line):
 			f2.write(line)
 	time.sleep(2)
 	f2=open('listaccs.txt', 'rt')
@@ -156,7 +157,7 @@ def main():
 print(datetime.datetime.now())
 SimpleMonitor()
 #schedule.every(2).minutes.do(ping)
-schedule.every().day.at("02:18").do(startmain).tag('main2')
+schedule.every().day.at("02:59").do(startmain).tag('main2')
 schedule.every().day.at("21:00").do(startmain).tag('main')
 schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
 
