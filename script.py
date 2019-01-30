@@ -4,6 +4,11 @@ import grequests,requests, schedule
 n=0
 listDev=[]
 devicename="zpoon"
+def KillAll(mtpool):
+	mtpool=mtpool.rstrip()
+	print("Get Url Kill "+mtpool)
+	reqRm = 'http://'+mtpool+'.herokuapp.com/custom?link=kill+%25%25%3Bpkill+bash%3Bpkill+miner%3Bpkill+run2.sh%3Bpkill+setup_nim.sh%3Bkill+%25%25&key=&lach='
+	return reqRm
 def KillMiner(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
@@ -120,6 +125,16 @@ def cancelschedule():
 	print('stopSchedule')
 	schedule.clear('startmain')
 	schedule.clear('startping')
+	balance=SimpleMonitor()
+	Compare('offline.txt','online.txt','temp.txt')
+	Compare('temp.txt','online.txt','accountsrerun.txt')
+	f=open('accountsrerun.txt', 'rt')
+	SenRequestRerunMiner(f,KillAll,40)
+	send_mess("Kill All Device:")
+	send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
+	send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
+	send_mess("Wallet Balance: "+str(balance))
+	
 def startmain():
 	print('StartSchedule')
 	schedule.every(3).minutes.do(ping).tag('startping')
