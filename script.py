@@ -116,9 +116,11 @@ def ping():
 	SenRequestRerunMiner(f2,PingDevice,5)
 	
 def cancelschedule():
+	print('stopSchedule')
 	schedule.clear('startmain')
 	schedule.clear('startping')
 def startmain():
+	print('StartSchedule')
 	schedule.every(3).minutes.do(ping).tag('startping')
 	schedule.every(10).minutes.do(main).tag('startmain')
 def main():
@@ -154,9 +156,9 @@ def main():
 print(datetime.datetime.now())
 SimpleMonitor()
 #schedule.every(2).minutes.do(ping)
-schedule.every().day.at("00:18").do(startmain).tag('main')
+schedule.every().day.at("02:18").do(startmain).tag('main2')
 schedule.every().day.at("21:00").do(startmain).tag('main')
-schedule.every().day.at("16:00").do(cancelschedule).tag('cancelmain')
+schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
 
 while 1:
 	schedule.run_pending()
