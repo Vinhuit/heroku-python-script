@@ -3,3 +3,5 @@ grequests
 schedule
 pyautogui
 xlib
+selenium
+PyUserInput
