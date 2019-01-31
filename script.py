@@ -172,7 +172,7 @@ def main():
 print(datetime.datetime.now())
 SimpleMonitor()
 #schedule.every(2).minutes.do(ping)
-schedule.every().day.at("10:50").do(startmain).tag('main2')
+schedule.every().day.at("10:56").do(startmain).tag('main2')
 schedule.every().day.at("21:00").do(startmain).tag('main')
 schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
 
