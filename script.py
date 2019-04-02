@@ -91,7 +91,16 @@ def SimpleMonitor():
 		else:
 			open('online.txt', 'a').write(miner_name+"\n")
 	return balance_formatted
+def Compare2(f1,f2,f3):
+	with open(f1, 'r') as file1:
+		with open(f2, 'r') as file2:
+			same = set(file1).difference(file2)
 
+	same.discard('\n')
+	list(set(same))
+	with open(f3, 'w') as file_out:
+		for line in sorted(same):
+				file_out.write(line)
 def send_mess(text):
 	url = "https://api.telegram.org/bot751128068:AAG4FraAKZ_es9ymZxy5dlhg3sJGtJpgKdw/"
 	params = {'chat_id':"531864213", 'text': text}
@@ -137,30 +146,30 @@ def cancelschedule():
 	
 def startmain():
 	print('StartSchedule')
-	schedule.every(3).minutes.do(ping).tag('startping')
+	#schedule.every(3).minutes.do(ping).tag('startping')
 	schedule.every(10).minutes.do(main).tag('startmain')
 def main():
 		global n
 		global listDev
 		n=n+1;
 		balance=SimpleMonitor()
-		Compare('offline.txt','online.txt','temp.txt')
-		Compare('temp.txt','online.txt','accountsrerun.txt')
+		Compare2('offline.txt','online.txt','accountsrerun.txt')
+		#Compare('temp.txt','online.txt','accountsrerun.txt')
 		f=open('accountsrerun.txt', 'rt')
-		listDev.append(file_lengthy('accountsrerun.txt'))
-		if n==2:
-			if(listDev[1] < listDev[0]):	
-				send_mess("Start Kill")
-				SenRequestRerunMiner(f,KillMiner,40)
+		#listDev.append(file_lengthy('accountsrerun.txt'))
+		#if n==2:
+			#if(listDev[1] < listDev[0]):	
+				#send_mess("Start Kill")
+				#SenRequestRerunMiner(f,KillMiner,40)
 				
-			else:
-				send_mess("Start Rerun")
-				SenRequestRerunMiner(f,StartMiner,40)
-			del listDev[:]
-			n=0
-		else:			
-			send_mess("Start Kill")
-			SenRequestRerunMiner(f,KillMiner)
+			#else:
+				#send_mess("Start Rerun")
+				#SenRequestRerunMiner(f,StartMiner,40)
+			#del listDev[:]
+			#n=0
+		#else:			
+			#send_mess("Start Kill")
+			#SenRequestRerunMiner(f,KillMiner)
 
 		send_mess("List offline:")
 		send_mess('\n'.join(GetLines('accountsrerun.txt')))
@@ -171,10 +180,10 @@ def main():
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
 SimpleMonitor()
-#schedule.every(2).minutes.do(ping)
-schedule.every().day.at("10:56").do(startmain).tag('main2')
-schedule.every().day.at("21:00").do(startmain).tag('main')
-schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
+schedule.every(120).minutes.do(main)
+#schedule.every().day.at("10:56").do(startmain).tag('main2')
+#schedule.every().day.at("21:00").do(startmain).tag('main')
+#schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
 
 while 1:
 	schedule.run_pending()
