@@ -83,6 +83,8 @@ def SimpleMonitor():
 	open('offline.txt', 'w').close()
 	open('online.txt', 'w').close()
 	for device in devices:
+		if 'device_status' not in device:
+			continue
 		miner_name = device['name']
 		miner_status = device['device_status']
 		
@@ -90,6 +92,7 @@ def SimpleMonitor():
 			open('offline.txt', 'a').write(miner_name+"\n")
 		else:
 			open('online.txt', 'a').write(miner_name+"\n")
+	print("Done Get")
 	return balance_formatted
 def Compare2(f1,f2,f3):
 	with open(f1, 'r') as file1:
@@ -179,7 +182,7 @@ def main():
 
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
-SimpleMonitor()
+main()
 schedule.every(120).minutes.do(main)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
