@@ -74,22 +74,22 @@ def get_offline():
 						link=n[0]["link"]
 						key=n[0]["key"]
 						print(StartStream(key,link,device))
-						print "Rerun "+device
+						print ("Rerun "+device)
 						break
 	for i in range(1,len(dataOffLine)+1):
-		print i
+		#print i
 		statusCode=RemoveOfilneApi(i).status_code
 		statusCode=RemoveOfilneApi(i).status_code
 		#time.sleep(1)
-		print statusCode
+		#print statusCode
 		while statusCode != requests.codes.ok or statusCode != 404:
 			statusCode = RemoveOfilneApi(i).status_code
 			statusCode = RemoveOfilneApi(i).status_code
-			print statusCode
+			#print statusCode
 			if statusCode == 404:
 				break
 			#time.sleep(1)
-	print "DoneRemoveDevice"
+	print ("DoneRemoveDevice")
 def Compare(f1,f2,f3):
 	with open(f1, 'r') as file1:
 		with open(f2, 'r') as file2:
