@@ -31,8 +31,65 @@ def SenRequestRerunMiner(file,callback,timeout=40):
 		urls.append(callback(pool))	
 	rs = (grequests.get(u,timeout=timeout) for u in urls)
 	print(grequests.map(rs))
-
-
+def StartStream(key,link,device):
+	url = 'http://'+device+'.herokuapp.com/stream?' + 'link='+link+'&key='+key+'&device='+device
+	#params = {'key':key, 'link': 'rtmp://a.rtmp.youtube.com/live2/'+link,'device':device}
+	response = requests.get(url)
+	return response
+def RemoveOfilneApi(num):
+	url = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline/'+str(num)
+	response = requests.delete(url)
+	return response
+def get_offline():
+	status = 'online'
+	json_address_offline = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline'
+	json_address_online = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/online'
+	dataOffLine = None
+	dataOnline = None
+	statusCode = 503
+	while dataOffLine is None:
+		try:
+			print("try get offline stream")
+			dataOffLine = requests.get(json_address_offline).json()
+			dataOnline = requests.get(json_address_online).json()
+		except:
+			 pass
+	while dataOnline is None:
+		try:
+			print("try get online stream")
+			dataOnline = requests.get(json_address_online).json()
+		except:
+			 pass
+	
+	print str(dataOffLine)
+	print str(dataOnline)
+	if len(dataOffLine)>0:
+		for i in dataOffLine:
+			deviceOff=i[0]["device"]
+			if len(dataOnline)>0:
+				for n in dataOnline:
+					deviceOn=n[0]["device"]
+					if deviceOff==deviceOn:
+						device=n[0]["device"]
+						link=n[0]["link"]
+						key=n[0]["key"]
+						print(StartStream(key,link,device))
+						print "Rerun "+device
+						break
+	for i in range(1,len(dataOffLine)+1):
+		print i
+		statusCode=RemoveOfilneApi(i).status_code
+		statusCode=RemoveOfilneApi(i).status_code
+		#time.sleep(1)
+		print statusCode
+		while statusCode != requests.codes.ok or statusCode != 404:
+			statusCode = RemoveOfilneApi(i).status_code
+			statusCode = RemoveOfilneApi(i).status_code
+			print statusCode
+			if statusCode == 404:
+				break
+			#time.sleep(1)
+	print "DoneRemoveDevice"
 def Compare(f1,f2,f3):
 	with open(f1, 'r') as file1:
 		with open(f2, 'r') as file2:
@@ -184,6 +241,7 @@ def main():
 print(datetime.datetime.now())
 main()
 schedule.every(120).minutes.do(main)
+schedule.every(1).minutes.do(get_offline)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
