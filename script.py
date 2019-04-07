@@ -61,8 +61,8 @@ def get_offline():
 		except:
 			 pass
 	
-	print dataOffLine
-	print dataOnline
+	#print dataOffLine
+	#print dataOnline
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i[0]["device"]
