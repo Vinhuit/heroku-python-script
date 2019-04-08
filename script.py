@@ -241,7 +241,7 @@ def main():
 print(datetime.datetime.now())
 main()
 schedule.every(120).minutes.do(main)
-schedule.every(1).minutes.do(get_offline)
+#schedule.every(1).minutes.do(get_offline)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
