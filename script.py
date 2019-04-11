@@ -37,8 +37,10 @@ def StartStream(key,link,device):
 	response = requests.get(url)
 	return response
 def RemoveOfilneApi(num):
+	data= '[{"device": ""}]'
+	headers = {'content-type': 'application/json'}
 	url = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline/'+str(num)
-	response = requests.delete(url)
+	response = requests.put(url, data=data,headers=headers)
 	return response
 def get_offline():
 	status = 'online'
@@ -240,12 +242,8 @@ def main():
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
 main()
-schedule.every(120).minutes.do(main)
-#schedule.every(1).minutes.do(get_offline)
+#schedule.every(120).minutes.do(main)
+schedule.every(1).minutes.do(get_offline)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
-
-while 1:
-	schedule.run_pending()
-	time.sleep(1)
