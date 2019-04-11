@@ -31,9 +31,9 @@ def SenRequestRerunMiner(file,callback,timeout=40):
 		urls.append(callback(pool))	
 	rs = (grequests.get(u,timeout=timeout) for u in urls)
 	print(grequests.map(rs))
-def StartStream(key,link,device):
-	url = 'http://'+device+'.herokuapp.com/stream?' + 'link='+link+'&key='+key+'&device='+device
-	#params = {'key':key, 'link': 'rtmp://a.rtmp.youtube.com/live2/'+link,'device':device}
+def StartStream(key,link,device,num):
+	url = 'http://'+device+'.herokuapp.com/stream?' + 'link='+link+'&key='+key+'&device='+device+'&num='+str(num)
+	#params = {'key':key, 'link': 'rtmp://a.rtmp.youtube.com/live2/'+link,'device':device,'num':num}
 	response = requests.get(url)
 	return response
 def RemoveOfilneApi(num):
@@ -75,7 +75,7 @@ def get_offline():
 						device=n[0]["device"]
 						link=n[0]["link"]
 						key=n[0]["key"]
-						print(StartStream(key,link,device))
+						print(StartStream(key,link,device,i))
 						print ("Rerun "+device)
 						break
 	for i in range(1,len(dataOffLine)+1):
