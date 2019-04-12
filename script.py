@@ -77,7 +77,7 @@ def get_offline():
 						device=n[0]["device"]
 						link=n[0]["link"]
 						key=n[0]["key"]
-                                                if device !="":
+						if device !="":
 							print(StartStream(key,link,device,num))
 							print ("Rerun "+device)
 							time.sleep(1)
