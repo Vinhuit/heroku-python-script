@@ -63,8 +63,8 @@ def get_offline():
 		except:
 			 pass
 	
-	print dataOffLine
-	print dataOnline
+	#print dataOffLine
+	#print dataOnline
         num=0
 	if len(dataOffLine)>0:
                 num=num+1
