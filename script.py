@@ -65,9 +65,9 @@ def get_offline():
 	
 	#print dataOffLine
 	#print dataOnline
-	num=0
-        if len(dataOffLine)>0:
-		num=num+1
+	num = 0
+	if len(dataOffLine)>0:
+		num = num + 1
 		for i in dataOffLine:
 			deviceOff=i[0]["device"]
 			if len(dataOnline)>0:
