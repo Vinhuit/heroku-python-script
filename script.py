@@ -143,18 +143,18 @@ def SimpleMonitor():
 	while price is None:
 		try:
 			print("try get price ")
-			price = requests.get('https://api.nimiqx.com/price/btc,usd?api_key=210b34d0df702dd157d31f118ae00420').json()
+			price = requests.get('https://api.sushipool.com/api/v1/stats/network').json()
 		except:
 			 pass
-	price = price['usd']
 	devices = data['devices']
-	hashrate =  format(data['total_hashrate']/(1000000),'.2f')
+	hashrate =  format(price['hashrate']/(1000000000),'.2f')
+	price = price['price']['usd']
 	wallet_state = data['wallet_balance']
 	balance_formatted = format(wallet_state/100000*price,'.2f')
 	devices=sorted(devices,key=sort_by_name)
 	open('offline.txt', 'w').close()
 	open('online.txt', 'w').close()
-	send_mess("HashRate: "+hashrate)
+	send_mess("HashRate: "+hashrate + 'Gh/s')
 	for device in devices:
 		if 'device_status' not in device:
 			continue
@@ -255,7 +255,7 @@ def main():
 
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
-#main()
+main()
 get_offline()
 schedule.every(120).minutes.do(main)
 schedule.every(1).minutes.do(get_offline)
