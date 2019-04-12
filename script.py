@@ -144,6 +144,7 @@ def SimpleMonitor():
 			 pass
 	price = price['usd']
 	devices = data['devices']
+	hashrate =  format(data['total_hashrate']/(1000000),'.2f')
 	wallet_state = data['wallet_balance']
 	balance_formatted = format(wallet_state/100000*price,'.2f')
 	devices=sorted(devices,key=sort_by_name)
