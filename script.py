@@ -63,9 +63,11 @@ def get_offline():
 		except:
 			 pass
 	
-	#print dataOffLine
-	#print dataOnline
+	print dataOffLine
+	print dataOnline
+        num=0
 	if len(dataOffLine)>0:
+                num=num+1
 		for i in dataOffLine:
 			deviceOff=i[0]["device"]
 			if len(dataOnline)>0:
@@ -75,8 +77,10 @@ def get_offline():
 						device=n[0]["device"]
 						link=n[0]["link"]
 						key=n[0]["key"]
-						print(StartStream(key,link,device,i))
-						print ("Rerun "+device)
+                                                if device !="":
+            						print(StartStream(key,link,device,num))
+	        					print ("Rerun "+device)
+                                                time.sleep(1)
 						break
 	for i in range(1,len(dataOffLine)+1):
 		#print i
@@ -251,7 +255,7 @@ def main():
 
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
-main()
+#main()
 get_offline()
 schedule.every(120).minutes.do(main)
 schedule.every(1).minutes.do(get_offline)
