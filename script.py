@@ -65,9 +65,9 @@ def get_offline():
 	
 	#print dataOffLine
 	#print dataOnline
-        num=0
+	num=0
         if len(dataOffLine)>0:
-                num=num+1
+		num=num+1
 		for i in dataOffLine:
 			deviceOff=i[0]["device"]
 			if len(dataOnline)>0:
@@ -78,10 +78,10 @@ def get_offline():
 						link=n[0]["link"]
 						key=n[0]["key"]
                                                 if device !="":
-            						print(StartStream(key,link,device,num))
-	        					print ("Rerun "+device)
-                                                time.sleep(1)
-						break
+							print(StartStream(key,link,device,num))
+							print ("Rerun "+device)
+							time.sleep(1)
+							break
 	for i in range(1,len(dataOffLine)+1):
 		#print i
 		statusCode=RemoveOfilneApi(i).status_code
