@@ -40,7 +40,7 @@ def RemoveOfilneApi(num):
 	data= '[{"device": ""}]'
 	headers = {'content-type': 'application/json'}
 	url = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline/'+str(num)
-	response = requests.put(url, data=data,headers=headers)
+	response = requests.patch(url, data=data,headers=headers)
 	return response
 def get_offline():
 	status = 'online'
