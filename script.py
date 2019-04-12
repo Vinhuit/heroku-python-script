@@ -135,12 +135,20 @@ def SimpleMonitor():
 			data = requests.get(json_address).json()
 		except:
 			 pass
+	while price is None:
+		try:
+			print("try get price ")
+			price = requests.get('https://api.nimiqx.com/price/btc,usd?api_key=210b34d0df702dd157d31f118ae00420').json()
+		except:
+			 pass
+	price = price['usd']
 	devices = data['devices']
 	wallet_state = data['wallet_balance']
-	balance_formatted = format(wallet_state/100000,'.2f')
+	balance_formatted = format(wallet_state/100000*price,'.2f')
 	devices=sorted(devices,key=sort_by_name)
 	open('offline.txt', 'w').close()
 	open('online.txt', 'w').close()
+	send_mess("HashRate: "+hashrate)
 	for device in devices:
 		if 'device_status' not in device:
 			continue
