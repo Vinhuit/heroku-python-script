@@ -129,6 +129,7 @@ def SimpleMonitor():
 	status = 'online'
 	json_address = json_address_for_sushi()
 	data = None
+	price = None
 	while data is None:
 		try:
 			print("try get json device")
