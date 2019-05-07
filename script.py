@@ -53,7 +53,6 @@ def get_offline():
 		try:
 			print("try get offline stream")
 			dataOffLine = requests.get(json_address_offline).json()
-			dataOnline = requests.get(json_address_online).json()
 		except:
 			 pass
 	while dataOnline is None:
@@ -78,16 +77,16 @@ def get_offline():
 						print(StartStream(key,link,device))
 						print ("Rerun "+device)
 						break
-	for i in range(1,len(dataOffLine)+1):
+	#for i in range(1,len(dataOffLine)+1):
 		#print i
-		statusCode=RemoveOfilneApi(i).status_code
+		#statusCode=RemoveOfilneApi(i).status_code
 		#time.sleep(1)
 		#print statusCode
-		while statusCode != requests.codes.ok or statusCode != 404:
-			statusCode = RemoveOfilneApi(i).status_code
+		#while statusCode != requests.codes.ok or statusCode != 404:
+			#statusCode = RemoveOfilneApi(i).status_code
 			#print statusCode
-			if statusCode == 404:
-				break
+			#if statusCode == 404:
+				#break
 			#time.sleep(1)
 	print ("DoneRemoveDevice")
 def Compare(f1,f2,f3):
