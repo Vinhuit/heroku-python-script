@@ -74,7 +74,8 @@ def get_offline():
 						device=n["device"]
 						link=n["link"]
 						key=n["key"]
-						print(StartStream(key,link,device))
+						num=n["id"]
+						print(StartStream(key,link,device,num))
 						print ("Rerun "+device)
 						break
 	#for i in range(1,len(dataOffLine)+1):
