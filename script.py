@@ -40,7 +40,7 @@ def RemoveOfilneApi(num):
 	data= '{"device": ""}'
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
-	response = requests.patch(url, data=data,headers=headers)
+	response = requests.put(url, data=data,headers=headers)
 	return response
 def get_offline():
 	status = 'online'
@@ -65,31 +65,25 @@ def get_offline():
 	
 	#print dataOffLine
 	#print dataOnline
-	num = 0
 	if len(dataOffLine)>0:
-		num = num + 1
 		for i in dataOffLine:
-			deviceOff=i[0]["device"]
+			deviceOff=i["device"]
 			if len(dataOnline)>0:
 				for n in dataOnline:
-					deviceOn=n[0]["device"]
+					deviceOn=n["device"]
 					if deviceOff==deviceOn:
-						device=n[0]["device"]
-						link=n[0]["link"]
-						key=n[0]["key"]
-						if device !="":
-							print(StartStream(key,link,device,num))
-							print ("Rerun "+device)
-							time.sleep(1)
-							break
+						device=n["device"]
+						link=n["link"]
+						key=n["key"]
+						print(StartStream(key,link,device))
+						print ("Rerun "+device)
+						break
 	for i in range(1,len(dataOffLine)+1):
 		#print i
-		statusCode=RemoveOfilneApi(i).status_code
 		statusCode=RemoveOfilneApi(i).status_code
 		#time.sleep(1)
 		#print statusCode
 		while statusCode != requests.codes.ok or statusCode != 404:
-			statusCode = RemoveOfilneApi(i).status_code
 			statusCode = RemoveOfilneApi(i).status_code
 			#print statusCode
 			if statusCode == 404:
