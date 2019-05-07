@@ -39,7 +39,7 @@ def StartStream(key,link,device,num):
 def RemoveOfilneApi(num):
 	data= '[{"device": ""}]'
 	headers = {'content-type': 'application/json'}
-	url = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline/'+str(num)
+	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
 	response = requests.patch(url, data=data,headers=headers)
 	return response
 def get_offline():
