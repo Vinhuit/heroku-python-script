@@ -44,8 +44,8 @@ def RemoveOfilneApi(num):
 	return response
 def get_offline():
 	status = 'online'
-	json_address_offline = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/offline'
-	json_address_online = 'http://myjsonserver-winiss.1d35.starter-us-east-1.openshiftapps.com/online'
+	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
+	json_address_online = 'http://xjsonserver01.herokuapp.com/online'
 	dataOffLine = None
 	dataOnline = None
 	statusCode = 503
