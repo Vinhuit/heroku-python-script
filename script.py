@@ -37,7 +37,7 @@ def StartStream(key,link,device,num):
 	response = requests.get(url)
 	return response
 def RemoveOfilneApi(num):
-	data= '[{"device": ""}]'
+	data= '{"device": ""}'
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
 	response = requests.patch(url, data=data,headers=headers)
