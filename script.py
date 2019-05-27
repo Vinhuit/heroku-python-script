@@ -42,6 +42,26 @@ def RemoveOfilneApi(num):
 	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
+def get_device():
+	datas =[]
+	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
+	dataOffLine = None
+	statusCode = 503
+	while dataOffLine is None:
+		try:
+			print("try get offline stream")
+			dataOffLine = requests.get(json_address_offline).json()
+		except:
+			 pass
+	
+	#print dataOffLine
+	#print dataOnline
+	if len(dataOffLine)>0:
+		for i in dataOffLine:
+			deviceOff=i["device"]
+                        datas.append(deviceOff)
+	SenRequestRerunMiner(datas,PingDevice,5)
+
 def get_offline():
 	status = 'online'
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
@@ -251,8 +271,10 @@ def main():
 print(datetime.datetime.now())
 main()
 get_offline()
+print str(get_device())
 schedule.every(120).minutes.do(main)
 schedule.every(1).minutes.do(get_offline)
+schedule.every(5).minutes.do(get_device)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
