@@ -60,7 +60,7 @@ def get_device():
 		for i in dataOffLine:
 			deviceOff=i["device"]
                         datas.append(deviceOff)
-	SenRequestRerunMiner(datas,PingDevice,5)
+	SenRequestRerunMiner(datas,PingDevice,60)
 
 def get_offline():
 	status = 'online'
