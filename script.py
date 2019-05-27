@@ -59,7 +59,7 @@ def get_device():
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i["device"]
-                        datas.append(deviceOff)
+			datas.append(deviceOff)
 	SenRequestRerunMiner(datas,PingDevice,60)
 
 def get_offline():
