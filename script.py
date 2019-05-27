@@ -271,7 +271,7 @@ def main():
 print(datetime.datetime.now())
 main()
 get_offline()
-print str(get_device())
+get_device()
 schedule.every(120).minutes.do(main)
 schedule.every(1).minutes.do(get_offline)
 schedule.every(5).minutes.do(get_device)
