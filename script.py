@@ -61,7 +61,25 @@ def get_device():
 			deviceOff=i["device"]
 			datas.append(deviceOff)
 	SenRequestRerunMiner(datas,PingDevice,60)
-
+def get_device2():
+	datas =[]
+	json_address_offline = 'http://xjsonserver01.herokuapp.com/other'
+	dataOffLine = None
+	statusCode = 503
+	while dataOffLine is None:
+		try:
+			print("try get offline stream 2")
+			dataOffLine = requests.get(json_address_offline).json()
+		except:
+			 pass
+	
+	#print dataOffLine
+	#print dataOnline
+	if len(dataOffLine)>0:
+		for i in dataOffLine:
+			deviceOff=i["device"]
+			datas.append(deviceOff)
+	SenRequestRerunMiner(datas,PingDevice,60)
 def get_offline():
 	status = 'online'
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
@@ -274,7 +292,8 @@ get_offline()
 get_device()
 schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
-schedule.every(35).minutes.do(get_device)
+schedule.every(120).minutes.do(get_device)
+schedule.every(35).minutes.do(get_device2)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 #schedule.every().day.at("21:00").do(startmain).tag('main')
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
