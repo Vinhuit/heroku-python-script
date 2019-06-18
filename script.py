@@ -61,6 +61,8 @@ def get_device():
 			deviceOff=i["device"]
 			datas.append(deviceOff)
 	SenRequestRerunMiner(datas,PingDevice,60)
+	schedule.every(3).minutes.do(get_device).tag('getdevice')
+	schedule.every(60).minutes.do(job_that_executes_once)
 def get_device2():
 	datas =[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/other'
@@ -251,7 +253,9 @@ def cancelschedule():
 	send_mess("Offline :"+str(len(open('accountsrerun.txt',"rt").readlines())))
 	send_mess("Online :"+str(len(open('online.txt',"rt").readlines())))
 	send_mess("Wallet Balance: "+str(balance))
-	
+def job_that_executes_once():
+    schedule.clear('getdevice')
+    return schedule.CancelJob	
 def startmain():
 	print('StartSchedule')
 	#schedule.every(3).minutes.do(ping).tag('startping')
