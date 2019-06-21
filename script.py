@@ -88,7 +88,7 @@ def get_device2():
 			num=4
 			deviceOff=i["device"]
 			datas.append(deviceOff)
-			AddDeviceApi(num,deviceOff):
+			AddDeviceApi(num,deviceOff)
 			num=num+1
 	#SenRequestRerunMiner(datas,PingDevice,60)
 def get_offline():
