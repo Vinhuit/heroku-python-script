@@ -42,6 +42,12 @@ def RemoveOfilneApi(num):
 	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
+def AddDeviceApi(num,email):
+	data= '{"device": "{0}"}'.format(email)
+	headers = {'content-type': 'application/json'}
+	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
+	response = requests.put(url, data=data,headers=headers)
+	return response
 def get_device():
 	datas =[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
@@ -62,7 +68,7 @@ def get_device():
 			datas.append(deviceOff)
 	SenRequestRerunMiner(datas,PingDevice,60)
 	schedule.every(3).minutes.do(get_device).tag('getdevice')
-	schedule.every(10).minutes.do(job_that_executes_once)
+	schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
 	datas =[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/other'
@@ -70,7 +76,7 @@ def get_device2():
 	statusCode = 503
 	while dataOffLine is None:
 		try:
-			print("try get offline stream 2")
+			print("try get list device")
 			dataOffLine = requests.get(json_address_offline).json()
 		except:
 			 pass
@@ -79,9 +85,12 @@ def get_device2():
 	#print dataOnline
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
+			num=4
 			deviceOff=i["device"]
 			datas.append(deviceOff)
-	SenRequestRerunMiner(datas,PingDevice,60)
+			AddDeviceApi(num,deviceOff):
+			num=num+1
+	#SenRequestRerunMiner(datas,PingDevice,60)
 def get_offline():
 	status = 'online'
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
@@ -296,10 +305,10 @@ get_offline()
 get_device()
 schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
-schedule.every(125).minutes.do(get_device)
-schedule.every(5).minutes.do(get_device2)
+schedule.every(123).minutes.do(get_device)
+#schedule.every(5).minutes.do(get_device2)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
-#schedule.every().day.at("21:00").do(startmain).tag('main')
+schedule.every().day.at("20:00").do(get_device2)
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
 while 1:
 	schedule.run_pending()
