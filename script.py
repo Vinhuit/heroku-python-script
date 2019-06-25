@@ -300,8 +300,8 @@ def main():
 
 #schedule.every(3).minutes.do(main)
 print(datetime.datetime.now())
-main()
-get_offline()
+#main()
+#get_offline()
 get_device()
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
