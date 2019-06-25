@@ -67,8 +67,8 @@ def get_device():
 			deviceOff=i["device"]
 			datas.append(deviceOff)
 	SenRequestRerunMiner(datas,PingDevice,60)
-	schedule.every(3).minutes.do(get_device).tag('getdevice')
-	schedule.every(20).minutes.do(job_that_executes_once)
+	#schedule.every(3).minutes.do(get_device).tag('getdevice')
+	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
 	datas =[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/other'
