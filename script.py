@@ -1,5 +1,5 @@
 import time, sys ,os ,threading, re, datetime
-import grequests,requests, schedule
+import grequests,requests, schedule, json
 
 n=0
 listDev=[]
@@ -49,7 +49,7 @@ def AddDeviceApi(num,email):
 	response = requests.put(url, data=data,headers=headers)
 	return response
 def AddDataApi(num,datas):
-	data= datas
+	data= json.dumps(datas)
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	print(url)
@@ -126,8 +126,7 @@ def AddFalseStart():
 		for i in dataOffLine:
 			if "name" not in i:
 				i.update({'name':'Vinh'})
-			if "isStart" not in i:
-				i.update({'isStart':'False'})
+			i.update({'isStart':'False'})
 		for i in range(len(dataOffLine)):
 			print(dataOffLine[i])
 			print(AddDataApi(i+1,dataOffLine[i]))
