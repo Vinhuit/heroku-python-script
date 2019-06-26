@@ -128,7 +128,7 @@ def AddFalseStart():
 				i.update({'name':'Vinh'})
 			if "isStart" not in i:
 				i.update({'isStart':'False'})
-		for x in range(len(dataOffLine)):
+		for i in range(len(dataOffLine)):
 			print(dataOffLine[i+1])
 			print(AddDataApi(i+1,dataOffLine[i]))
 def get_offline():
