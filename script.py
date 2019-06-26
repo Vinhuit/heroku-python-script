@@ -310,6 +310,7 @@ def main():
 print(datetime.datetime.now())
 #main()
 #get_offline()
+time.sleep(180)
 get_device()
 if len(sys.argv)>2:
 	get_device2()
