@@ -77,11 +77,11 @@ def get_device():
 			datas.append(deviceOff)
 	list50=datas[len(datas)//2:]
 	list100=datas[:len(datas)//2]
-	if len(sys.argv)>1:
-		SenRequestRerunMiner(list50,PingDevice,60)
-	else:
-		SenRequestRerunMiner(list100,PingDevice,60)
-	#SenRequestRerunMiner(datas,PingDevice,60)
+	#if len(sys.argv)>1:
+	#	SenRequestRerunMiner(list50,PingDevice,60)
+	#else:
+		#SenRequestRerunMiner(datas,PingDevice,60)
+	SenRequestRerunMiner(datas,PingDevice,60)
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
