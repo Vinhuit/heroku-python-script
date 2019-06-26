@@ -66,7 +66,11 @@ def get_device():
 		for i in dataOffLine:
 			deviceOff=i["device"]
 			datas.append(deviceOff)
-	SenRequestRerunMiner(datas,PingDevice,60)
+	if len(sys.argv)>1:
+		SenRequestRerunMiner(datas[len(datas)/2:],PingDevice,60)
+	else:
+		SenRequestRerunMiner(datas[:len(datas)/2],PingDevice,60)
+	#SenRequestRerunMiner(datas,PingDevice,60)
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
@@ -303,6 +307,8 @@ print(datetime.datetime.now())
 #main()
 #get_offline()
 get_device()
+if len(sys.argv)>2:
+	get_device2()
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
 schedule.every(123).minutes.do(get_device)
