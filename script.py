@@ -48,6 +48,13 @@ def AddDeviceApi(num,email):
 	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
+def AddDataApi(num,datas):
+	data= datas
+	headers = {'content-type': 'application/json'}
+	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
+	print(url)
+	response = requests.put(url, data=data,headers=headers)
+	return response
 def get_device():
 	datas =[]
 	list50=[]
@@ -99,6 +106,31 @@ def get_device2():
 			AddDeviceApi(num,deviceOff)
 			num=num+1
 	#SenRequestRerunMiner(datas,PingDevice,60)
+def AddFalseStart():
+	datas =[]
+	json_address_offline = 'http://xjsonserver01.herokuapp.com/temp/'
+	dataOffLine = None
+	statusCode = 503
+	temp_data = []
+	while dataOffLine is None:
+		try:
+			print("try get list device")
+			dataOffLine = requests.get(json_address_offline).json()
+		except:
+			 pass
+	#print dataOffLine
+	#print dataOnline
+	#print(dataOffLine)
+
+	if len(dataOffLine)>4:
+		for i in dataOffLine:
+			if "name" not in i:
+				i.update({'name':'Vinh'})
+			if "isStart" not in i:
+				i.update({'isStart':'False'})
+		for x in range(len(dataOffLine)):
+			print(dataOffLine[i+1])
+			print(AddDataApi(i+1,dataOffLine[i]))
 def get_offline():
 	status = 'online'
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
@@ -310,10 +342,11 @@ def main():
 print(datetime.datetime.now())
 #main()
 #get_offline()
+AddFalseStart()
 time.sleep(180)
 get_device()
 if len(sys.argv)>2:
-	get_device2()
+	get_device2()	
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
 schedule.every(123).minutes.do(get_device)
