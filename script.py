@@ -50,6 +50,8 @@ def AddDeviceApi(num,email):
 	return response
 def get_device():
 	datas =[]
+	list50=[]
+	list100=[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
 	dataOffLine = None
 	statusCode = 503
@@ -66,10 +68,12 @@ def get_device():
 		for i in dataOffLine:
 			deviceOff=i["device"]
 			datas.append(deviceOff)
+	list50=datas[len(datas)//2:]
+	list100=datas[:len(datas)//2]
 	if len(sys.argv)>1:
-		SenRequestRerunMiner(datas[len(datas)/2:],PingDevice,60)
+		SenRequestRerunMiner(list50,PingDevice,60)
 	else:
-		SenRequestRerunMiner(datas[:len(datas)/2],PingDevice,60)
+		SenRequestRerunMiner(list100,PingDevice,60)
 	#SenRequestRerunMiner(datas,PingDevice,60)
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
