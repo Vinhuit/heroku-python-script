@@ -42,8 +42,9 @@ def RemoveOfilneApi(num):
 	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
-def AddDeviceApi(num,email):
-	data= '{"device": "'+email+'"}'
+def AddDeviceApi(num,email,name):
+	data1= {"device": email,"name":name,"isStart":"False"}
+	data = json.dumps(data1)
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
@@ -102,8 +103,12 @@ def get_device2():
 		num=4
 		for i in dataOffLine:
 			deviceOff=i["device"]
+			if "name" in i:
+				name=i["name"]
+			else:
+				name="Vinh"
 			datas.append(deviceOff)
-			AddDeviceApi(num,deviceOff)
+			AddDeviceApi(num,deviceOff,name)
 			num=num+1
 	#SenRequestRerunMiner(datas,PingDevice,60)
 def AddFalseStart():
