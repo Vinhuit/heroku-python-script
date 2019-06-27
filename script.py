@@ -4,9 +4,12 @@ import grequests,requests, schedule, json
 n=0
 listDev=[]
 devicename="zpoon"
-def CheckDevice():
-	url = "http://www.hubertiming.com/results/2017GPTR10K"
-	html = requests.get('https://icemining.ca/site/wallet_miners_results?address=NQ56JVMC03YPS4DYNU9C4VERJER8EJY1JX9U')
+def CheckDevice(num):
+	if num == 1:
+		url = "https://icemining.ca/site/wallet_miners_results?address=NQ56JVMC03YPS4DYNU9C4VERJER8EJY1JX9U"
+	else:
+		url = "https://icemining.ca/site/wallet_miners_results?address=NQ95X5CYLT5HLR5YAPME6FT8PGA0SE7TTNXH"
+	html = requests.get(url)
 	#print (html.content)
 	result = re.findall('argon2d</b></td><td align="right">(\d+)',html.content)
 	return (int(result[0]))
