@@ -16,7 +16,7 @@ def KillMiner(mtpool):
 	return reqRm
 def PingDevice(mtpool):
 	mtpool=mtpool.rstrip()
-	print("Ping Url "+mtpool)
+	#print("Ping Url "+mtpool)
 	reqRm = 'http://'+mtpool+'.herokuapp.com/'
 	return reqRm
 def StartMiner(mtpool):
@@ -43,7 +43,7 @@ def RemoveOfilneApi(num):
 	response = requests.put(url, data=data,headers=headers)
 	return response
 def AddDeviceApi(num,email,name):
-	data= {"device": email,"name":name,"isStart":"False"}
+	data= {"device": email.rstrip(),"name":name,"isStart":"False"}
 	#data = json.dumps(data1)
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
