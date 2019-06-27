@@ -384,7 +384,7 @@ if len(sys.argv)>2:
 	get_device2()	
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
-schedule.every(123).minutes.do(get_device)
+#schedule.every(123).minutes.do(get_device)
 print("Start Run")
 #send_mess("Start At: "+str(datetime.datetime.now()))
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
