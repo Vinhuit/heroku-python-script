@@ -11,7 +11,7 @@ def CheckDevice(num):
 		url = "https://icemining.ca/site/wallet_miners_results?address=NQ95X5CYLT5HLR5YAPME6FT8PGA0SE7TTNXH"
 	html = requests.get(url)
 	#print (html.content)
-	result = re.findall('argon2d</b></td><td align="right">(\d+)',html.content)
+	result = re.findall(b'argon2d</b></td><td align="right">(\d+)',html.content)
 	return (int(result[0]))
 def KillAll(mtpool):
 	mtpool=mtpool.rstrip()
