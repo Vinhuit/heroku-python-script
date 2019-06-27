@@ -100,12 +100,16 @@ def get_device(num=2):
 	if num == 1:	
 		if CheckDevice(1) <100:
 			print("Ping Vinh")
+			send_mess("Start Vinh: "+str(datetime.datetime.now()))
 			SenRequestRerunMiner(datasvinh,PingDevice,60)
 		if CheckDevice(2) <100:
 			print("Ping Danh")
+			send_mess("Start Danh: "+str(datetime.datetime.now()))
 			SenRequestRerunMiner(datasdanh,PingDevice,60)
 	else:	
+		send_mess("Start All: "+str(datetime.datetime.now()))
 		SenRequestRerunMiner(datas,PingDevice,60)
+		
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
@@ -382,7 +386,7 @@ if len(sys.argv)>2:
 #schedule.every(1).minutes.do(get_offline)
 schedule.every(123).minutes.do(get_device)
 print("Start Run")
-send_mess("Start At: "+str(datetime.datetime.now()))
+#send_mess("Start At: "+str(datetime.datetime.now()))
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 schedule.every().day.at("20:00").do(get_device2)
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
