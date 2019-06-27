@@ -346,7 +346,8 @@ def main():
 print(datetime.datetime.now())
 #main()
 #get_offline()
-AddFalseStart()
+#AddFalseStart()
+print("Start Run")
 time.sleep(780)
 get_device()
 if len(sys.argv)>2:
