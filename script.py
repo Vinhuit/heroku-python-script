@@ -4,6 +4,12 @@ import grequests,requests, schedule, json
 n=0
 listDev=[]
 devicename="zpoon"
+def CheckDevice():
+	url = "http://www.hubertiming.com/results/2017GPTR10K"
+	html = requests.get('https://icemining.ca/site/wallet_miners_results?address=NQ56JVMC03YPS4DYNU9C4VERJER8EJY1JX9U')
+	#print (html.content)
+	result = re.findall('argon2d</b></td><td align="right">(\d+)',html.content)
+	return (int(result[0]))
 def KillAll(mtpool):
 	mtpool=mtpool.rstrip()
 	print("Get Url Kill "+mtpool)
@@ -56,8 +62,10 @@ def AddDataApi(num,datas):
 	print(url)
 	response = requests.put(url, data=data,headers=headers)
 	return response
-def get_device():
+def get_device(num=2):
 	datas =[]
+	datasvinh =[]
+	datasdanh =[]
 	list50=[]
 	list100=[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
@@ -75,6 +83,10 @@ def get_device():
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i["device"]
+			if i["name"] == "Vinh":
+				datasvinh.append(deviceOff)
+			else:
+				datasdanh.append(deviceOff)
 			datas.append(deviceOff)
 	list50=datas[len(datas)//2:]
 	list100=datas[:len(datas)//2]
@@ -82,7 +94,15 @@ def get_device():
 	#	SenRequestRerunMiner(list50,PingDevice,60)
 	#else:
 		#SenRequestRerunMiner(datas,PingDevice,60)
-	SenRequestRerunMiner(datas,PingDevice,60)
+	if num == 1:	
+		if CheckDevice(1) <100:
+			print("Ping Vinh")
+			SenRequestRerunMiner(datasvinh,PingDevice,60)
+		if CheckDevice(2) <100:
+			print("Ping Danh")
+			SenRequestRerunMiner(datasdanh,PingDevice,60)
+	else:	
+		SenRequestRerunMiner(datas,PingDevice,60)
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
@@ -311,8 +331,9 @@ def job_that_executes_once():
     return schedule.CancelJob	
 def startmain():
 	print('StartSchedule')
+	get_device(1)
 	#schedule.every(3).minutes.do(ping).tag('startping')
-	schedule.every(10).minutes.do(main).tag('startmain')
+	#schedule.every(10).minutes.do(main).tag('startmain')
 def main():
 		global n
 		global listDev
@@ -349,7 +370,7 @@ print(datetime.datetime.now())
 #AddFalseStart()
 print("Start Run")
 time.sleep(780)
-get_device()
+get_device(2)
 if len(sys.argv)>2:
 	get_device2()	
 #schedule.every(120).minutes.do(main)
@@ -357,7 +378,7 @@ if len(sys.argv)>2:
 schedule.every(123).minutes.do(get_device)
 print("Start Run")
 send_mess("Start At: "+str(datetime.datetime.now()))
-#schedule.every(5).minutes.do(get_device2)
+schedule.every(5).minutes.do(startmain)
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
 schedule.every().day.at("20:00").do(get_device2)
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
