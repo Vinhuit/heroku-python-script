@@ -373,8 +373,9 @@ print(datetime.datetime.now())
 #AddFalseStart()
 print("Start Run")
 schedule.every(5).minutes.do(startmain)
-time.sleep(780)
-get_device(2)
+if len(sys.argv)==2:
+	time.sleep(780)
+	get_device(2)
 if len(sys.argv)>2:
 	get_device2()	
 #schedule.every(120).minutes.do(main)
