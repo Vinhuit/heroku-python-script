@@ -384,7 +384,8 @@ if len(sys.argv)==2:
 	time.sleep(780)
 	get_device(2)
 if len(sys.argv)>2:
-	get_device2()	
+	get_device2()
+	get_device(2)
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
 #schedule.every(123).minutes.do(get_device)
