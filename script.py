@@ -97,15 +97,18 @@ def get_device(num=2):
 	#	SenRequestRerunMiner(list50,PingDevice,60)
 	#else:
 		#SenRequestRerunMiner(datas,PingDevice,60)
-	if num == 1:	
-		if CheckDevice(1) <100:
-			print("Ping Vinh")
-			send_mess("Start Vinh: "+str(datetime.datetime.now()))
-			SenRequestRerunMiner(datasvinh,PingDevice,60)
-		if CheckDevice(2) <100:
-			print("Ping Danh")
-			send_mess("Start Danh: "+str(datetime.datetime.now()))
-			SenRequestRerunMiner(datasdanh,PingDevice,60)
+	if num == 1:
+		try:
+			if CheckDevice(1) <100:
+				print("Ping Vinh")
+				send_mess("Start Vinh: "+str(datetime.datetime.now()))
+				SenRequestRerunMiner(datasvinh,PingDevice,60)
+			if CheckDevice(2) <100:
+				print("Ping Danh")
+				send_mess("Start Danh: "+str(datetime.datetime.now()))
+				SenRequestRerunMiner(datasdanh,PingDevice,60)
+		except:
+			pass
 	else:	
 		send_mess("Start All: "+str(datetime.datetime.now()))
 		SenRequestRerunMiner(datas,PingDevice,60)
