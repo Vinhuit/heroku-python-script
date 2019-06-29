@@ -379,22 +379,24 @@ print(datetime.datetime.now())
 #get_offline()
 #AddFalseStart()
 print("Start Run")
-schedule.every(5).minutes.do(startmain)
+#schedule.every(5).minutes.do(startmain)
 if len(sys.argv)==2:
 	time.sleep(780)
 	get_device(2)
-if len(sys.argv)>2:
+if len(sys.argv)==3:
 	get_device2()
 	get_device(2)
+if len(sys.argv)==4:
+	get_device(1)	
 #schedule.every(120).minutes.do(main)
 #schedule.every(1).minutes.do(get_offline)
 #schedule.every(123).minutes.do(get_device)
 print("Start Run")
 #send_mess("Start At: "+str(datetime.datetime.now()))
 #schedule.every().day.at("10:56").do(startmain).tag('main2')
-schedule.every().day.at("20:00").do(get_device2)
+#schedule.every().day.at("20:00").do(get_device2)
 #schedule.every().day.at("14:00").do(cancelschedule).tag('cancelmain')
-while 1:
-	schedule.run_pending()
-	time.sleep(1)
+#while 1:
+#	schedule.run_pending()
+#	time.sleep(1)
 	#print("Run...")
