@@ -108,7 +108,8 @@ def get_device(num=2):
 				send_mess("Start Danh: "+str(datetime.datetime.now()))
 				SenRequestRerunMiner(datasdanh,PingDevice,60)
 		except:
-			pass
+			send_mess("Start All: "+str(datetime.datetime.now()))
+			SenRequestRerunMiner(datas,PingDevice,60)
 	else:	
 		send_mess("Start All: "+str(datetime.datetime.now()))
 		SenRequestRerunMiner(datas,PingDevice,60)
