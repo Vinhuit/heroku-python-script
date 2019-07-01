@@ -103,9 +103,6 @@ def get_device(num=2):
 				print("Ping Vinh")
 				send_mess("Start Vinh: "+str(datetime.datetime.now()))
 				SenRequestRerunMiner(datasvinh,PingDevice,60)
-                        else:
-                                send_mess("Start All: "+str(datetime.datetime.now()))
-		                SenRequestRerunMiner(datas,PingDevice,60)
 			if CheckDevice(2) <100:
 				print("Ping Danh")
 				send_mess("Start Danh: "+str(datetime.datetime.now()))
