@@ -72,12 +72,20 @@ def get_device(num=2):
 	list50=[]
 	list100=[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
+	urlDevice = 'http://xjsonserver01.herokuapp.com/temp'
 	dataOffLine = None
+	dataDevice = None
 	statusCode = 503
 	while dataOffLine is None:
 		try:
 			print("try get offline stream")
 			dataOffLine = requests.get(json_address_offline).json()
+		except:
+			 pass
+	while dataDevice is None:
+		try:
+			print("try get devices")
+			dataDevice = requests.get(urlDevice).json()
 		except:
 			 pass
 	
@@ -87,16 +95,19 @@ def get_device(num=2):
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i["device"]
-			try:
-				if i["startAdHoc"] == "True":
-					dataping.append(deviceOff)
-			except:
-				pass
 			if i["name"] == "Vinh":
 				datasvinh.append(deviceOff)
 			else:
 				datasdanh.append(deviceOff)
 			datas.append(deviceOff)
+	if len(dataDevice)>0:
+		for i in dataDevice:
+			deviceOff=i["device"]
+			try:
+				if i["startAdHoc"] == "True":
+					dataping.append(deviceOff)
+			except:
+				pass
 	list50=datas[len(datas)//2:]
 	list100=datas[:len(datas)//2]
 	#if len(sys.argv)>1:
