@@ -102,10 +102,10 @@ def get_device(num=2):
 			datas.append(deviceOff)
 	if len(dataDevice)>0:
 		for i in dataDevice:
-			deviceOff=i["device"]
+			deviceOff=i["id"]
 			try:
 				if i["startAdHoc"] == "True":
-					dataping.append(deviceOff)
+					dataping.append("azure00"+str(deviceOff))
 			except:
 				pass
 	list50=datas[len(datas)//2:]
