@@ -382,7 +382,7 @@ print(datetime.datetime.now())
 print("Start Run")
 #schedule.every(5).minutes.do(startmain)
 if len(sys.argv)==2:
-	time.sleep(780)
+	time.sleep(200)
 	get_device(2)
 if len(sys.argv)==3:
 	get_device2()
