@@ -83,9 +83,15 @@ def get_device(num=2):
 	
 	#print dataOffLine
 	#print dataOnline
+	dataping=[]
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i["device"]
+			try:
+				if i["startAdHoc"] == "True":
+					dataping.append(deviceOff)
+			except:
+				pass
 			if i["name"] == "Vinh":
 				datasvinh.append(deviceOff)
 			else:
@@ -107,6 +113,9 @@ def get_device(num=2):
 				print("Ping Danh")
 				send_mess("Start Danh: "+str(datetime.datetime.now()))
 				SenRequestRerunMiner(datasdanh,PingDevice,60)
+			if len(dataping)>1:
+				print("Ping AdHoc")
+				SenRequestRerunMiner(dataping,PingDevice,60)
 		except:
 			send_mess("Start All: "+str(datetime.datetime.now()))
 			SenRequestRerunMiner(datas,PingDevice,60)
