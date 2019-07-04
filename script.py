@@ -52,7 +52,7 @@ def RemoveOfilneApi(num):
 	response = requests.put(url, data=data,headers=headers)
 	return response
 def AddDeviceApi(num,email,name):
-	data1= {"device": email.rstrip(),"name":name,"isStart":"False"}
+	data1= {"device": email.rstrip(),"name":name,"isStart":"False","startAdHoc":"True"}
 	data = json.dumps(data1)
 	headers = {'content-type': 'application/json'}
 	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
@@ -151,7 +151,7 @@ def get_device2():
 	#print dataOffLine
 	#print dataOnline
 	if len(dataOffLine)>0:
-		num=4
+		num=1
 		for i in dataOffLine:
 			deviceOff=i["device"]
 			if "name" in i:
