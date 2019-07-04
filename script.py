@@ -128,8 +128,8 @@ def get_device(num=2):
 				print("Ping AdHoc")
 				SenRequestRerunMiner(dataping,PingDevice,60)
 		except:
-			send_mess("Start All: "+str(datetime.datetime.now()))
-			SenRequestRerunMiner(datas,PingDevice,60)
+			send_mess("Shoud be start All")
+			#SenRequestRerunMiner(datas,PingDevice,60)
 	else:	
 		send_mess("Start All: "+str(datetime.datetime.now()))
 		SenRequestRerunMiner(datas,PingDevice,60)
