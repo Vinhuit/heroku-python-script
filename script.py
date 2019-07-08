@@ -55,13 +55,21 @@ def AddDeviceApi(num,email,name):
 	data1= {"device": email.rstrip(),"name":name,"isStart":"False","startAdHoc":"True"}
 	data = json.dumps(data1)
 	headers = {'content-type': 'application/json'}
-	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
+	if int(num)>499:
+		url="http://xjsonserver01.herokuapp.com/rerunaccount/"+str(num)
+	else:
+		url="http://xjsonserver01.herokuapp.com/temp/"+str(num)
+	#url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
 def AddDataApi(num,datas):
 	data= json.dumps(datas)
 	headers = {'content-type': 'application/json'}
-	url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
+	if int(num)>499:
+		url="http://xjsonserver01.herokuapp.com/rerunaccount/"+str(num)
+	else:
+		url="http://xjsonserver01.herokuapp.com/temp/"+str(num)
+	#url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	print(url)
 	response = requests.put(url, data=data,headers=headers)
 	return response
@@ -73,8 +81,10 @@ def get_device(num=2):
 	list100=[]
 	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
 	urlDevice = 'http://xjsonserver01.herokuapp.com/temp'
+	urlDevice2 = 'http://xjsonserver01.herokuapp.com/rerunaccount'
 	dataOffLine = None
 	dataDevice = None
+	dataDevice2 = None
 	statusCode = 503
 	while dataOffLine is None:
 		try:
@@ -86,6 +96,12 @@ def get_device(num=2):
 		try:
 			print("try get devices")
 			dataDevice = requests.get(urlDevice).json()
+		except:
+			 pass
+	while dataDevice2 is None:
+		try:
+			print("try get devices 2")
+			dataDevice2 = requests.get(urlDevice2).json()
 		except:
 			 pass
 	
@@ -102,6 +118,14 @@ def get_device(num=2):
 			datas.append(deviceOff)
 	if len(dataDevice)>0:
 		for i in dataDevice:
+			deviceOff=i["id"]
+			try:
+				if i["startAdHoc"] == "True":
+					dataping.append("azure00"+str(deviceOff))
+			except:
+				pass
+	if len(dataDevice2)>0:
+		for i in dataDevice2:
 			deviceOff=i["id"]
 			try:
 				if i["startAdHoc"] == "True":
