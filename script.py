@@ -87,28 +87,13 @@ def get_device(num=2):
 	dataDevice = None
 	dataDevice2 = None
 	statusCode = 503
+	dataping=[]
 	while dataOffLine is None:
 		try:
 			print("try get offline stream")
 			dataOffLine = requests.get(json_address_offline).json()
 		except:
 			 pass
-	while dataDevice is None:
-		try:
-			print("try get devices")
-			dataDevice = requests.get(urlDevice).json()
-		except:
-			 pass
-	while dataDevice2 is None:
-		try:
-			print("try get devices 2")
-			dataDevice2 = requests.get(urlDevice2).json()
-		except:
-			 pass
-	
-	#print dataOffLine
-	#print dataOnline
-	dataping=[]
 	if len(dataOffLine)>0:
 		for i in dataOffLine:
 			deviceOff=i["device"]
@@ -117,29 +102,46 @@ def get_device(num=2):
 			else:
 				datasdanh.append(deviceOff)
 			datas.append(deviceOff)
-	if len(dataDevice)>0:
-		for i in dataDevice:
-			deviceOff=i["id"]
-			try:
-				if i["startAdHoc"] == "True":
-					dataping.append("azure00"+str(deviceOff))
-			except:
-				pass
-	if len(dataDevice2)>0:
-		for i in dataDevice2:
-			deviceOff=i["id"]
-			try:
-				if i["startAdHoc"] == "True":
-					dataping.append("azure00"+str(deviceOff))
-			except:
-				pass
-	list50=datas[len(datas)//2:]
-	list100=datas[:len(datas)//2]
-	#if len(sys.argv)>1:
-	#	SenRequestRerunMiner(list50,PingDevice,60)
-	#else:
-		#SenRequestRerunMiner(datas,PingDevice,60)
 	if num == 1:
+		while dataDevice is None:
+			try:
+				print("try get devices")
+				dataDevice = requests.get(urlDevice).json()
+			except:
+				 pass
+		while dataDevice2 is None:
+			try:
+				print("try get devices 2")
+				dataDevice2 = requests.get(urlDevice2).json()
+			except:
+				 pass
+	
+	#print dataOffLine
+	#print dataOnline
+	
+	
+		if len(dataDevice)>0:
+			for i in dataDevice:
+				deviceOff=i["id"]
+				try:
+					if i["startAdHoc"] == "True":
+						dataping.append("azure00"+str(deviceOff))
+				except:
+					pass
+		if len(dataDevice2)>0:
+			for i in dataDevice2:
+				deviceOff=i["id"]
+				try:
+					if i["startAdHoc"] == "True":
+						dataping.append("azure00"+str(deviceOff))
+				except:
+					pass
+		list50=datas[len(datas)//2:]
+		list100=datas[:len(datas)//2]
+		#if len(sys.argv)>1:
+		#	SenRequestRerunMiner(list50,PingDevice,60)
+		#else:
+			#SenRequestRerunMiner(datas,PingDevice,60)
 		try:
 			if CheckDevice(1) <100:
 				print("Ping Vinh")
