@@ -159,7 +159,7 @@ def get_device(num=2):
 			#SenRequestRerunMiner(datas,PingDevice,60)
 	else:	
 		send_mess("Start All: "+str(datetime.datetime.now()))
-		SenRequestRerunMiner(datas[133:],PingDevice,60)
+		SenRequestRerunMiner(datas,PingDevice,60)
 		
 	#schedule.every(3).minutes.do(get_device).tag('getdevice')
 	#schedule.every(20).minutes.do(job_that_executes_once)
