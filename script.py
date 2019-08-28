@@ -4,6 +4,7 @@ import grequests,requests, schedule, json
 n=0
 listDev=[]
 devicename="zpoon"
+jsonserver='http://jsonserver01.herokuapp.com/'
 def CheckDevice(num):
 	if num == 1:
 		url = "https://icemining.ca/site/wallet_miners_results?address=NQ56JVMC03YPS4DYNU9C4VERJER8EJY1JX9U"
@@ -48,7 +49,7 @@ def StartStream(key,link,device,num):
 def RemoveOfilneApi(num):
 	data= '{"device": ""}'
 	headers = {'content-type': 'application/json'}
-	url = 'http://xjsonserver01.herokuapp.com/offline/'+str(num)
+	url = jsonserver+'offline/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
 def AddDeviceApi(num,email,name):
@@ -56,9 +57,9 @@ def AddDeviceApi(num,email,name):
 	data = json.dumps(data1)
 	headers = {'content-type': 'application/json'}
 	if int(num)>499:
-		url="http://xjsonserver01.herokuapp.com/rerunaccount/"+str(num)
+		url=jsonserver+"rerunaccount/"+str(num)
 	else:
-		url="http://xjsonserver01.herokuapp.com/temp/"+str(num)
+		url=jsonserver+"temp/"+str(num)
 	#url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	response = requests.put(url, data=data,headers=headers)
 	return response
@@ -66,9 +67,9 @@ def AddDataApi(num,datas):
 	data= json.dumps(datas)
 	headers = {'content-type': 'application/json'}
 	if int(num)>499:
-		url="http://xjsonserver01.herokuapp.com/rerunaccount/"+str(num)
+		url=jsonserver+"rerunaccount/"+str(num)
 	else:
-		url="http://xjsonserver01.herokuapp.com/temp/"+str(num)
+		url=jsonserver+"temp/"+str(num)
 	#url = 'http://xjsonserver01.herokuapp.com/temp/'+str(num)
 	print(url)
 	response = requests.put(url, data=data,headers=headers)
@@ -79,9 +80,9 @@ def get_device(num=2):
 	datasdanh =[]
 	list50=[]
 	list100=[]
-	json_address_offline = 'http://xjsonserver01.herokuapp.com/alldevices'
-	urlDevice = 'http://xjsonserver01.herokuapp.com/temp'
-	urlDevice2 = 'http://xjsonserver01.herokuapp.com/rerunaccount'
+	json_address_offline = jsonserver+"alldevices"
+	urlDevice = jsonserver+"temp"
+	urlDevice2 = jsonserver+"rerunaccount"
 	dataOffLine = None
 	dataDevice = None
 	dataDevice2 = None
@@ -162,7 +163,7 @@ def get_device(num=2):
 	#schedule.every(20).minutes.do(job_that_executes_once)
 def get_device2():
 	datas =[]
-	json_address_offline = 'http://xjsonserver01.herokuapp.com/other'
+	json_address_offline = jsonserver+"other"
 	dataOffLine = None
 	statusCode = 503
 	while dataOffLine is None:
@@ -188,7 +189,7 @@ def get_device2():
 	#SenRequestRerunMiner(datas,PingDevice,60)
 def AddFalseStart():
 	datas =[]
-	json_address_offline = 'http://xjsonserver01.herokuapp.com/temp/'
+	json_address_offline = jsonserver+"temp/"
 	dataOffLine = None
 	statusCode = 503
 	temp_data = []
@@ -212,8 +213,8 @@ def AddFalseStart():
 			print(AddDataApi(i+1,dataOffLine[i]))
 def get_offline():
 	status = 'online'
-	json_address_offline = 'http://xjsonserver01.herokuapp.com/offline'
-	json_address_online = 'http://xjsonserver01.herokuapp.com/online'
+	json_address_offline = jsonserver+"offline"
+	json_address_online = jsonserver+"online"
 	dataOffLine = None
 	dataOnline = None
 	statusCode = 503
